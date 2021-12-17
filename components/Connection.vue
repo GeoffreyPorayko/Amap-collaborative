@@ -2,7 +2,7 @@
   <div class="column is-8">
     <div class="card">
       <h1 class="has-text-centered is-size-4 pt-4">
-        <b>Connection</b>
+        <b>Connexion</b>
       </h1>
       <section class="pb-4">
         <b-field
@@ -26,7 +26,7 @@
           />
         </b-field>
         <div class="is-flex is-justify-content-center pb-4 pt-4">
-            <b-button type="is-primary" outlined>Connection</b-button>
+            <b-button type="is-primary" outlined>Connexion</b-button>
         </div>
         <p class="has-text-centered">
           Mot de passe oublié ?
