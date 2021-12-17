@@ -40,20 +40,7 @@
         </template>
       </b-navbar>
     </template>
-    <div class="container mt-3">
-      <b-field message="Quelle recette cherchez-vous?">
-        <b-input
-          placeholder="Rechercher..."
-          type="search"
-          icon="magnify"
-          expanded
-        />
-        <p class="control">
-          <b-button type="is-primary" label="Rechercher" />
-        </p>
-      </b-field>
-    </div>
-    <section class="main-content columns">
+    <section class="main-content columns is-justify-content-center">
       <div class="column is-10">
         <Nuxt />
       </div>
