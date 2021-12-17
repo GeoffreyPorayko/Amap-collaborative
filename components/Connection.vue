@@ -26,7 +26,9 @@
           />
         </b-field>
         <div class="is-flex is-justify-content-center pb-4 pt-4">
-            <b-button type="is-primary" outlined>Connexion</b-button>
+          <b-button type="is-primary" outlined>
+            Connection
+          </b-button>
         </div>
         <p class="has-text-centered">
           Mot de passe oublié ?
