@@ -1,6 +1,6 @@
 <template>
   <section class="section">
-       <div class="container mt-3">
+    <div class="container mt-3">
       <b-field message="Quelle recette cherchez-vous?">
         <b-input
           placeholder="Rechercher..."
@@ -14,18 +14,37 @@
       </b-field>
     </div>
     <div class="columns is-multiline is-justify-content-center">
-      <CardRecipe :difficulty="3" recipename="Poulet braisé" personnes="10" photo="poulet.jpg" time="25" />
-      <CardRecipe :difficulty="1" recipename="Soupe au navet d'automnes" personnes="10" photo="poulet.jpg" time="25" />
+      <CardRecipe
+        v-for="recette in recettes"
+        :key="recette"
+        :idrecette="recette.id"
+        :difficulty="recette.difficulte"
+        :recipename="recette.titre"
+        :personnes="recette.nb_pers"
+        photo="poulet.jpg"
+        :time="recette.temps"
+      />
     </div>
   </section>
 </template>
 
 <script>
 import CardRecipe from '../components/CardRecipe'
+
 export default {
   name: 'IndexPage',
   components: {
     CardRecipe
+  },
+  data () {
+    return {
+      recettes: null
+    }
+  },
+  created () {
+    this.$axios.get('http://localhost:8000/recettes').then((response) => {
+      this.recettes = response.data
+    })
   }
 }
 </script>

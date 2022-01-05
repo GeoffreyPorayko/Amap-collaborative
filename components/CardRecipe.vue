@@ -3,7 +3,7 @@
     <div class="card">
       <div class="card-image">
         <div class="headercard is-flex is-justify-content-space-between p-3">
-          <p>{{ time }} min</p>
+          <p>{{ timeConv }}m</p>
           <span class="icon">
             <i class="fas fa-heart" />
           </span>
@@ -42,8 +42,17 @@
 export default {
   name: 'CardRecipe',
   // eslint-disable-next-line vue/require-prop-types
-  props: ['recipename', 'difficulty', 'personnes', 'photo', 'time'],
+  props: ['recipename', 'difficulty', 'personnes', 'photo', 'time', 'idrecette'],
   computed: {
+    timeConv () {
+      if (this.time >= 60) {
+        const hours = Math.floor(this.time / 60)
+        const minutes = this.time % 60
+        return hours + 'h' + minutes
+      } else {
+        return this.time
+      }
+    },
     level () {
       switch (this.difficulty) {
         case 1:
@@ -69,7 +78,7 @@ export default {
 }
 
 .headercard p {
-  background-color: rgba(255,255,255);
+  background-color: rgba(255, 255, 255);
   border-radius: 10px;
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
   padding: 5px;
