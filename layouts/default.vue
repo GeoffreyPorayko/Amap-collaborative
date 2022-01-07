@@ -22,7 +22,20 @@
       </template>
 
       <template #end>
-        <b-navbar-item tag="div">
+        <b-navbar-item v-if="$auth.loggedIn" tag="div">
+          <div class="buttons">
+            <Nuxt-Link to="#">
+              <div class="button is-primary">
+                <strong>{{ $auth.user.email }}</strong>
+              </div>
+            </Nuxt-Link>
+            <div class="button is-light" @click="$auth.logout()">
+              Déconnexion
+            </div>
+          </div>
+        </b-navbar-item>
+
+        <b-navbar-item v-else tag="div">
           <div class="buttons">
             <Nuxt-Link to="/inscription">
               <div class="button is-primary">

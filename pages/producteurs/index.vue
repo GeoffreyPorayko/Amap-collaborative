@@ -13,7 +13,7 @@
         </p>
       </b-field>
     </div>
-    <div class="columns is-multiline is-justify-content-center">
+    <div class="columns is-multiline is-justify-content-center mt-2">
       <CardProducteur nom="John Doe" photo="poulet.jpg" :suivi="1" />
       <CardProducteur nom="Marcel Dupuis" photo="poulet.jpg" :suivi="0" />
       <CardProducteur nom="John Doe" photo="poulet.jpg" :suivi="1" />

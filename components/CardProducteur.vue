@@ -7,7 +7,7 @@
         </figure>
       </div>
       <div class="card-content has-text-centered">
-        <p>
+        <p class="mb-1">
           {{ nom }}
         </p>
         <b-button rounded class="is-small">
@@ -36,7 +36,5 @@ export default {
 </script>
 
 <style scoped>
-  .card-content p{
-    margin-bottom: 5px;
-  }
+
 </style>

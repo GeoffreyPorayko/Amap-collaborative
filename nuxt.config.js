@@ -40,7 +40,8 @@ export default {
     // https://go.nuxtjs.dev/buefy
     'nuxt-buefy',
     // https://go.nuxtjs.dev/axios
-    '@nuxtjs/axios'
+    '@nuxtjs/axios',
+    '@nuxtjs/auth-next'
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
@@ -51,5 +52,27 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
+  },
+
+  auth: {
+    strategies: {
+      local: {
+        token: {
+          property: 'token',
+          global: true
+          // required: true,
+          // type: 'Bearer'
+        },
+        user: {
+          property: false
+          // autoFetch: true
+        },
+        endpoints: {
+          login: { url: 'http://localhost:8000/login', method: 'post' },
+          logout: { url: 'http://localhost:8000/logout', method: 'post' },
+          user: { url: 'http://localhost:8000/me', method: 'get' }
+        }
+      }
+    }
   }
 }
