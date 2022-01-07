@@ -1,6 +1,6 @@
 <template>
   <section class="section">
-       <div class="container mt-3">
+    <div class="container mt-3">
       <b-field message="Quelle recette cherchez-vous?">
         <b-input
           placeholder="Rechercher..."
