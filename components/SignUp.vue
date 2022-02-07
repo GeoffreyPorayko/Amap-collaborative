@@ -11,9 +11,9 @@
             class="column is-6"
           >
             <b-input
+              v-model="nom"
               type="text"
               placeholder="entrez votre nom"
-              v-model="nom"
             />
           </b-field>
           <b-field
@@ -21,9 +21,9 @@
             class="column is-6"
           >
             <b-input
+              v-model="prenom"
               type="text"
               placeholder="entrez votre prénom"
-              v-model="prenom"
             />
           </b-field>
         </div>
@@ -33,9 +33,9 @@
             class="column is-6"
           >
             <b-input
+              v-model="email"
               type="text"
               placeholder="entrez votre email"
-              v-model="email"
             />
           </b-field>
           <b-field
@@ -64,9 +64,9 @@
             class="column is-6"
           >
             <b-input
+              v-model="confpassword"
               type="password"
               placeholder="confirmez votre mot de passe"
-              v-model="confpassword"
             />
           </b-field>
         </div>
@@ -113,7 +113,7 @@
           </b-field>
         </div>
         <div class="is-flex is-justify-content-center pb-4 pt-4">
-          <b-button type="is-primary" @click="inscription" outlined>
+          <b-button type="is-primary" outlined @click="inscription">
             Inscription
           </b-button>
         </div>
@@ -139,8 +139,13 @@ export default {
   methods: {
     inscription () {
       if (this.password === this.confpassword) {
-        this.$axios.post('http://localhost:8000/register', { nom: this.nom, prenom: this.prenom, email: this.email, password: this.password }).then((response) => {
-          this.$auth.loginWith('local', { email: this.email, password: this.password })
+        this.$axios.post('http://localhost:8000/register', {
+          nom: this.nom,
+          prenom: this.prenom,
+          email: this.email,
+          password: this.password
+        }).then((response) => {
+          this.$auth.loginWith('local', { data: { email: this.email, password: this.password } })
         })
       }
     }

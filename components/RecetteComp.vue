@@ -37,15 +37,15 @@
           <b-icon
             pack="far"
             icon="thumbs-up"
-            size="is-medium">
-          </b-icon>
+            size="is-medium"
+          />
         </b-button>
         <b-button type="is-primary" size="is-large" outlined rounded>
           <b-icon
             pack="far"
             icon="thumbs-down"
-            size="is-medium">
-          </b-icon>
+            size="is-medium"
+          />
         </b-button>
       </div>
     </div>
