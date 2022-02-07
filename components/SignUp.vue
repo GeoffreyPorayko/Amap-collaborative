@@ -13,6 +13,7 @@
             <b-input
               type="text"
               placeholder="entrez votre nom"
+              v-model="nom"
             />
           </b-field>
           <b-field
@@ -22,6 +23,7 @@
             <b-input
               type="text"
               placeholder="entrez votre prénom"
+              v-model="prenom"
             />
           </b-field>
         </div>
@@ -33,6 +35,7 @@
             <b-input
               type="text"
               placeholder="entrez votre email"
+              v-model="email"
             />
           </b-field>
           <b-field
@@ -51,6 +54,7 @@
             class="column is-6"
           >
             <b-input
+              v-model="password"
               type="password"
               placeholder="entrez votre mot de passe"
             />
@@ -60,8 +64,9 @@
             class="column is-6"
           >
             <b-input
-              type="text"
+              type="password"
               placeholder="confirmez votre mot de passe"
+              v-model="confpassword"
             />
           </b-field>
         </div>
@@ -79,8 +84,8 @@
             v-model="radio"
             name="expertRatio"
             native-value="non"
-            v-on:click.native="seen = false"
             checked
+            @click.native="seen = false"
           >
             non
           </b-radio>
@@ -108,7 +113,7 @@
           </b-field>
         </div>
         <div class="is-flex is-justify-content-center pb-4 pt-4">
-          <b-button type="is-primary" outlined>
+          <b-button type="is-primary" @click="inscription" outlined>
             Inscription
           </b-button>
         </div>
@@ -122,8 +127,22 @@ export default {
   name: 'SignUpItem',
   data () {
     return {
+      nom: '',
+      prenom: '',
+      email: '',
+      password: '',
+      confpassword: '',
       radio: 'non',
       seen: false
+    }
+  },
+  methods: {
+    inscription () {
+      if (this.password === this.confpassword) {
+        this.$axios.post('http://localhost:8000/register', { nom: this.nom, prenom: this.prenom, email: this.email, password: this.password }).then((response) => {
+          this.$auth.loginWith('local', { email: this.email, password: this.password })
+        })
+      }
     }
   }
 }
