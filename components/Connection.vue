@@ -5,31 +5,35 @@
         <b>Connexion</b>
       </h1>
       <section class="pb-4">
-        <b-field
-          label="Email:"
-          class="column is-6"
-          style="margin:0 auto;"
-        >
-          <b-input
-            type="email"
-            placeholder="entrez votre email"
-          />
-        </b-field>
-        <b-field
-          label="Mot de passe:"
-          class="column is-6"
-          style="margin:0 auto;"
-        >
-          <b-input
-            type="password"
-            placeholder="entrez votre mot de passe"
-          />
-        </b-field>
-        <div class="is-flex is-justify-content-center pb-4 pt-4">
-          <b-button type="is-primary" outlined>
-            Connexion
-          </b-button>
-        </div>
+        <form>
+          <b-field
+            label="Email:"
+            class="column is-6"
+            style="margin:0 auto;"
+          >
+            <b-input
+              v-model="userInfo.email"
+              type="email"
+              placeholder="Entrer votre email"
+            />
+          </b-field>
+          <b-field
+            label="Mot de passe:"
+            class="column is-6"
+            style="margin:0 auto;"
+          >
+            <b-input
+              v-model="userInfo.password"
+              type="password"
+              placeholder="Entrer votre mot de passe"
+            />
+          </b-field>
+          <div class="submit is-flex is-justify-content-center pb-4 pt-4">
+            <b-button type="is-primary" outlined @click="logFunction(userInfo)">
+              Connexion
+            </b-button>
+          </div>
+        </form>
         <p class="has-text-centered">
           Mot de passe oublié ?
         </p>
@@ -43,6 +47,17 @@
 
 <script>
 export default {
-  name: 'ConnectionItem'
+  name: 'ConnectionItem',
+  // eslint-disable-next-line vue/require-prop-types
+  props: ['logFunction'],
+  data () {
+    return {
+      showPassword: false,
+      userInfo: {
+        email: '',
+        password: ''
+      }
+    }
+  }
 }
 </script>
