@@ -88,6 +88,7 @@ export default {
           const response = await this.$auth.loginWith('local', { data: loginInfo })
           this.$store.commit('storeToken', response.data.access_token)
           this.$store.commit('storeUser', response.data.user[0])
+          console.log(this.$store.state.user)
           await this.$router.push('/')
         } catch (err) {
           // eslint-disable-next-line no-console
