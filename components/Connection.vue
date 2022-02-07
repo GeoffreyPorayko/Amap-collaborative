@@ -1,46 +1,44 @@
 <template>
-  <div class="column is-8">
-    <div class="card">
-      <h1 class="has-text-centered is-size-4 pt-4">
-        <b>Connexion</b>
+  <div class="columns is-multiline is-justify-content-center">
+    <form class="box column is-6 mt-6" @submit.prevent="loginUser(userInfo)">
+      <h1 class="title is-4 has-text-centered">
+        Se connecter
       </h1>
-      <section class="pb-4">
-        <form>
-          <b-field
-            label="Email:"
-            class="column is-6"
-            style="margin:0 auto;"
-          >
-            <b-input
-              v-model="userInfo.email"
-              type="email"
-              placeholder="Entrer votre email"
-            />
-          </b-field>
-          <b-field
-            label="Mot de passe:"
-            class="column is-6"
-            style="margin:0 auto;"
-          >
-            <b-input
-              v-model="userInfo.password"
-              type="password"
-              placeholder="Entrer votre mot de passe"
-            />
-          </b-field>
-          <div class="submit is-flex is-justify-content-center pb-4 pt-4">
-            <b-button type="is-primary" outlined @click="logFunction(userInfo)">
-              Connexion
-            </b-button>
-          </div>
-        </form>
-        <p class="has-text-centered">
-          Mot de passe oublié ?
-        </p>
-        <p class="has-text-centered">
-          Pas encore de compte ? <a>Creez en un</a>
-        </p>
-      </section>
+      <b-field label="Email">
+        <b-input v-model="userInfo.email" type="email" maxlength="30" required />
+      </b-field>
+
+      <b-field label="Password">
+        <b-input v-model="userInfo.password" type="password" required />
+      </b-field>
+
+      <div class="has-text-centered mt-5 mb-3">
+        <button class="button">
+          Se connecter
+        </button>
+      </div>
+
+      <p class="has-text-centered">
+        Mot de passe oublié ?
+      </p>
+      <p class="has-text-centered">
+        Pas encore de compte ?
+        <NuxtLink to="/inscription">
+          Créez en un
+        </NuxtLink>
+      </p>
+    </form>
+    <div class="column is-7">
+      <b-message
+        v-if="erreurMessage"
+        v-model="errorIsActive"
+        auto-close
+        type="is-danger"
+        class="has-text-centered"
+        :duration="errorDuration"
+      >
+        {{ erreurMessage }}
+      </b-message>
     </div>
   </div>
 </template>
@@ -48,16 +46,60 @@
 <script>
 export default {
   name: 'ConnectionItem',
-  // eslint-disable-next-line vue/require-prop-types
-  props: ['logFunction'],
   data () {
     return {
       showPassword: false,
       userInfo: {
         email: '',
         password: ''
+      },
+      errorIsActive: false,
+      errorDuration: 3500,
+      erreurMessage: ''
+    }
+  },
+  methods: {
+    validEmail (email) {
+      const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+      return re.test(email)
+    },
+    // eslint-disable-next-line require-await
+    async loginUser (loginInfo) {
+      this.erreurMessage = ''
+
+      if (!loginInfo.email) {
+        this.erreurMessage = 'Email nécessaire'
+        this.errorIsActive = true
+        return
+      } else if (!this.validEmail(loginInfo.email)) {
+        this.erreurMessage = 'Email valide nécessaire'
+        this.errorIsActive = true
+        return
+      }
+
+      if (!loginInfo.password) {
+        this.erreurMessage = 'Mot de passe nécessaire'
+        this.errorIsActive = true
+        return
+      }
+
+      if (!this.erreurMessage.length) {
+        try {
+          const response = await this.$auth.loginWith('local', { data: loginInfo })
+          // eslint-disable-next-line no-console
+          console.log(response)
+        } catch (err) {
+          // eslint-disable-next-line no-console
+          console.log(err)
+          this.erreurMessage = 'Email ou mot de passe incorrect'
+          this.errorIsActive = true
+        }
       }
     }
   }
 }
 </script>
+
+<style scoped>
+
+</style>

@@ -11,6 +11,7 @@
             class="column is-6"
           >
             <b-input
+              v-model="nom"
               type="text"
               placeholder="entrez votre nom"
             />
@@ -20,6 +21,7 @@
             class="column is-6"
           >
             <b-input
+              v-model="prenom"
               type="text"
               placeholder="entrez votre prénom"
             />
@@ -31,6 +33,7 @@
             class="column is-6"
           >
             <b-input
+              v-model="email"
               type="text"
               placeholder="entrez votre email"
             />
@@ -51,6 +54,7 @@
             class="column is-6"
           >
             <b-input
+              v-model="password"
               type="password"
               placeholder="entrez votre mot de passe"
             />
@@ -60,7 +64,8 @@
             class="column is-6"
           >
             <b-input
-              type="text"
+              v-model="confpassword"
+              type="password"
               placeholder="confirmez votre mot de passe"
             />
           </b-field>
@@ -108,7 +113,7 @@
           </b-field>
         </div>
         <div class="is-flex is-justify-content-center pb-4 pt-4">
-          <b-button type="is-primary" outlined>
+          <b-button type="is-primary" outlined @click="inscription">
             Inscription
           </b-button>
         </div>
@@ -122,8 +127,27 @@ export default {
   name: 'SignUpItem',
   data () {
     return {
+      nom: '',
+      prenom: '',
+      email: '',
+      password: '',
+      confpassword: '',
       radio: 'non',
       seen: false
+    }
+  },
+  methods: {
+    inscription () {
+      if (this.password === this.confpassword) {
+        this.$axios.post('http://localhost:8000/register', {
+          nom: this.nom,
+          prenom: this.prenom,
+          email: this.email,
+          password: this.password
+        }).then((response) => {
+          this.$router.push('/connexion')
+        })
+      }
     }
   }
 }
