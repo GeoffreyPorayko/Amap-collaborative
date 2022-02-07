@@ -20,13 +20,6 @@ export default {
 <style>
 
 /*----------- Main Style ------*/
-body {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  background-color: #fbf7f4;
-}
 
 .btn {
   display: flex;

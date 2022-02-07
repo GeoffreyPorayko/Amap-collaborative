@@ -1,6 +1,6 @@
 <template>
   <div>
-    <RecetteComp :id="this.$route.params.id" />
+    <RecetteComp :id="$route.params.id" />
   </div>
 </template>
 

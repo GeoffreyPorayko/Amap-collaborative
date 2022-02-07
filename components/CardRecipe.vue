@@ -1,6 +1,6 @@
 <template>
   <div class="column is-4">
-    <div class="card" @click="redirect()">
+    <div class="card" @click="$router.push('/recette/' + id)">
       <div class="card-image">
         <div class="headercard is-flex is-justify-content-space-between p-3">
           <p>{{ timeConv }}</p>
@@ -80,14 +80,6 @@ export default {
 
       return heures + minutes + secondes
     }
-  },
-
-  methods: {
-
-    redirect () {
-      window.location.href = '/recette/' + this.id
-    }
-
   }
 }
 </script>
