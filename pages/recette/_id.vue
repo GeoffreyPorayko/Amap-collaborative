@@ -1,6 +1,6 @@
 <template>
   <div>
-    <RecetteComp :difficulty="3" recipename="Poulet braisé" personnes="10" photo="../../poulet.jpg" time="25" />
+    <RecetteComp :id="this.$route.params.id" />
   </div>
 </template>
 

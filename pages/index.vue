@@ -47,6 +47,7 @@
           :personnes="recipe.nb_pers"
           :photo="recipe.url_img"
           :time="recipe.temps"
+          style="cursor:pointer;"
         />
       </div>
     </div>
