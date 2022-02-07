@@ -1,6 +1,6 @@
 <template>
   <div class="column is-4">
-    <div class="card">
+    <div class="card" @click="redirect()">
       <div class="card-image">
         <div class="headercard is-flex is-justify-content-space-between p-3">
           <p>{{ timeConv }}</p>
@@ -42,7 +42,7 @@
 export default {
   name: 'CardRecipe',
   // eslint-disable-next-line vue/require-prop-types
-  props: ['recipename', 'difficulty', 'personnes', 'photo', 'time'],
+  props: ['recipename', 'difficulty', 'personnes', 'photo', 'time', 'id'],
 
   computed: {
     level () {
@@ -80,6 +80,14 @@ export default {
 
       return heures + minutes + secondes
     }
+  },
+
+  methods: {
+
+    redirect () {
+      window.location.href = '/recette/' + this.id
+    }
+
   }
 }
 </script>
@@ -119,4 +127,5 @@ div.column p {
   transform: scale(1.5);
   color: red;
 }
+
 </style>

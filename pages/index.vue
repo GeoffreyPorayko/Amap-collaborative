@@ -13,18 +13,42 @@
         </p>
       </b-field>
     </div>
-    <div class="columns is-multiline is-justify-content-center">
-      <CardRecipe :difficulty="3" recipename="Poulet braisé" personnes="10" photo="poulet.jpg" time="4980" />
-      <CardRecipe :difficulty="1" recipename="Soupe au navet d'automnes" personnes="10" photo="poulet.jpg" time="25" />
-      <CardRecipe
-        v-for="recipe in recipes"
-        :key="recipe"
-        :difficulty="recipe.difficulte"
-        :recipename="recipe.titre"
-        :personnes="recipe.nb_pers"
-        :photo="recipe.url_img"
-        :time="recipe.temps"
-      />
+    <div v-if="error">
+      <p>Erreur lors de la récupération des recettes</p>
+    </div>
+    <div v-else>
+      <div v-if="loading" style="margin: 0 auto;" class="mt-5">
+        <Spinner />
+      </div>
+
+      <div v-else class="columns is-multiline is-justify-content-center">
+        <CardRecipe
+          :id="1"
+          :difficulty="3"
+          recipename="Poulet braisé"
+          personnes="10"
+          photo="poulet.jpg"
+          time="4980"
+        />
+        <CardRecipe
+          :id="2"
+          :difficulty="1"
+          recipename="Soupe au navet d'automnes"
+          personnes="10"
+          photo="poulet.jpg"
+          time="25"
+        />
+        <CardRecipe
+          v-for="recipe in recipes"
+          :id="recipe.id"
+          :key="recipe"
+          :difficulty="recipe.difficulte"
+          :recipename="recipe.titre"
+          :personnes="recipe.nb_pers"
+          :photo="recipe.url_img"
+          :time="recipe.temps"
+        />
+      </div>
     </div>
   </section>
 </template>
@@ -32,11 +56,12 @@
 <script>
 import axios from 'axios'
 import CardRecipe from '../components/CardRecipe'
+import Spinner from '../components/spinner'
 
 export default {
   name: 'IndexPage',
   components: {
-    CardRecipe
+    CardRecipe, Spinner
   },
   data () {
     return {
@@ -51,7 +76,6 @@ export default {
       .get('http://localhost:8080/recettes')
       .then((response) => {
         this.recipes = response.data
-        console.log(this.recipes)
         this.error = false
       })
       .catch((error) => {
