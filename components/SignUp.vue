@@ -145,7 +145,7 @@ export default {
           email: this.email,
           password: this.password
         }).then((response) => {
-          this.$auth.loginWith('local', { data: { email: this.email, password: this.password } })
+          this.$router.push('/connexion')
         })
       }
     }
