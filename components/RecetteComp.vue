@@ -124,7 +124,7 @@ export default {
   },
   created () {
     axios
-      .get('http://localhost:8080/recette/' + this.id)
+      .get('http://localhost:8000/recette/' + this.id)
       .then((response) => {
         this.recipe = response.data
         console.log(this.recipe)
