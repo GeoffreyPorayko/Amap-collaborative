@@ -40,8 +40,8 @@
         />
         <CardRecipe
           v-for="recipe in recipes"
+          :key="recipe.id"
           :id="recipe.id"
-          :key="recipe"
           :difficulty="recipe.difficulte"
           :recipename="recipe.titre"
           :personnes="recipe.nb_pers"
