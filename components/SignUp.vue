@@ -71,7 +71,7 @@
             v-model="radio"
             name="expertRatio"
             native-value="oui"
-            v-on:click.native="seen = true"
+            @click.native="seen = true"
           >
             oui
           </b-radio>
@@ -79,8 +79,8 @@
             v-model="radio"
             name="expertRatio"
             native-value="non"
-            v-on:click.native="seen = false"
             checked
+            @click.native="seen = false"
           >
             non
           </b-radio>
