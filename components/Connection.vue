@@ -86,8 +86,9 @@ export default {
       if (!this.erreurMessage.length) {
         try {
           const response = await this.$auth.loginWith('local', { data: loginInfo })
-          // eslint-disable-next-line no-console
-          console.log(response)
+          this.$store.commit('storeToken', response.data.access_token)
+          this.$store.commit('storeUser', response.data.user[0])
+          await this.$router.push('/')
         } catch (err) {
           // eslint-disable-next-line no-console
           console.log(err)

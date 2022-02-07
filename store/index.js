@@ -4,11 +4,15 @@ import Vue from 'vue'
 Vue.use(Vuex)
 
 export const state = () => ({
-  token: ''
+  token: '',
+  user: {}
 })
 
 export const mutations = {
-  storeToken (state, data) {
-    state.token = data.access_token
+  storeToken (state, token) {
+    state.token = token
+  },
+  storeUser (state, user) {
+    state.user = user
   }
 }
