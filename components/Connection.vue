@@ -13,10 +13,15 @@
           >
             <b-input
               v-model="userInfo.email"
-              type="email"
+              type="text"
               placeholder="Entrer votre email"
             />
           </b-field>
+          <div
+            class="has-text-danger has-text-centered"
+          >
+            {{ erreurEmail }}
+          </div>
           <b-field
             label="Mot de passe:"
             class="column is-6"
@@ -26,8 +31,14 @@
               v-model="userInfo.password"
               type="password"
               placeholder="Entrer votre mot de passe"
+              password-reveal
             />
           </b-field>
+          <div
+            class="has-text-danger has-text-centered"
+          >
+            {{ erreurPassword }}
+          </div>
           <div class="submit is-flex is-justify-content-center pb-4 pt-4">
             <b-button type="is-primary" outlined @click="logFunction(userInfo)">
               Connexion
@@ -38,7 +49,10 @@
           Mot de passe oublié ?
         </p>
         <p class="has-text-centered">
-          Pas encore de compte ? <a>Creez en un</a>
+          Pas encore de compte ?
+          <NuxtLink to="/inscription">
+            Créez en un
+          </NuxtLink>
         </p>
       </section>
     </div>
@@ -48,8 +62,8 @@
 <script>
 export default {
   name: 'ConnectionItem',
-  // eslint-disable-next-line vue/require-prop-types
-  props: ['logFunction'],
+  // eslint-disable-next-line vue/require-prop-types,vue/prop-name-casing
+  props: ['logFunction', 'erreurEmail', 'erreurPassword'],
   data () {
     return {
       showPassword: false,
@@ -61,3 +75,7 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+
+</style>
