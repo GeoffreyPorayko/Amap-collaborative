@@ -98,7 +98,7 @@
       <div id="etapeCard" class="card p-4">
         <i class="fas fa-times cross fa-lg" style="cursor: pointer;" @click="closeStep()" />
             <h1 class="is-size-4 ml-4 mt-4"><b>ÉTAPE {{ etapes[indexEtape].numero }}</b> {{ etapes[indexEtape].titre }} </h1>
-            <img :src="etapes[indexEtape].url_img" alt="" class="imgEtape">
+            <img v-if="etapes[indexEtape].url_img" :src="etapes[indexEtape].url_img" alt="" class="imgEtape">
             <p class="ml-4 mt-5">{{ etapes[indexEtape].contenu }}</p>
             <footer>
               <button v-if="indexEtape === 0" class="button is-medium is-primary" style="float:left;">Précédent</button>
