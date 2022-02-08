@@ -3,7 +3,7 @@
     <div class="card">
       <div class="card-image">
         <figure class="image is-4by3">
-          <img :src="producteur.url_img" alt="Placeholder image">
+          <img :src="contributeur.url_img" alt="Photo de profil">
         </figure>
       </div>
       <div class="card-content has-text-centered">
@@ -30,9 +30,9 @@
 
 <script>
 export default {
-  name: 'CardProducteur',
+  name: 'CardContributeur',
   // eslint-disable-next-line vue/require-prop-types,vue/prop-name-casing
-  props: ['producteur', 'followers'],
+  props: ['contributeur', 'followers'],
   data () {
     return {
       suivi: false
@@ -40,7 +40,7 @@ export default {
   },
   computed: {
     fullname () {
-      return this.producteur.prenom + ' ' + this.producteur.nom
+      return this.contributeur.prenom + ' ' + this.contributeur.nom
     }
   },
   mounted () {
@@ -51,31 +51,29 @@ export default {
   methods: {
     isFollowing () {
       this.followers.forEach((el) => {
-        if (el.id === this.producteur.id) {
+        if (el.id === this.contributeur.id) {
           this.suivi = true
         }
       })
     },
     unfollow () {
-      console.log('unfollow')
-      this.$axios.put(`http://localhost:8000/producteur/${this.$store.state.user.id}/unfollow/${this.producteur.id}`)
+      this.$axios.put(`http://localhost:8000/contributeur/${this.$store.state.user.id}/unfollow/${this.contributeur.id}`)
         .then((response) => {
-          console.log(response)
           this.suivi = false
         })
         .catch((error) => {
           console.log(error)
+          this.$buefy.toast.open('Une erreur est survenue')
         })
     },
     follow () {
-      console.log('follow')
-      this.$axios.put(`http://localhost:8000/producteur/${this.$store.state.user.id}/suivre/${this.producteur.id}`)
+      this.$axios.put(`http://localhost:8000/contributeur/${this.$store.state.user.id}/suivre/${this.contributeur.id}`)
         .then((response) => {
-          console.log(response)
           this.suivi = true
         })
         .catch((error) => {
           console.log(error)
+          this.$buefy.toast.open('Une erreur est survenue')
         })
     }
   }
