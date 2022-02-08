@@ -13,6 +13,9 @@
         </p>
       </b-field>
     </div>
+    <div class="is-flex">
+      <b-button type="is-primary" label="Créer une recette" @click="$router.push('/recette/creation')" />
+    </div>
     <div v-if="error">
       <p>Erreur lors de la récupération des recettes</p>
     </div>
@@ -73,8 +76,9 @@ export default {
   },
 
   created () {
+    console.log(this.$auth.loggedIn)
     axios
-      .get('http://localhost:8080/recettes')
+      .get('http://localhost:8000/recettes')
       .then((response) => {
         this.recipes = response.data
         this.error = false

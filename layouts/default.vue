@@ -1,9 +1,9 @@
 <template>
   <div>
-    <Navbar/>
+    <Navbar />
     <section class="main-content columns is-justify-content-center">
       <div class="column is-10">
-        <Nuxt/>
+        <Nuxt />
       </div>
     </section>
   </div>
