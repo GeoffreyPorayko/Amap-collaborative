@@ -5,7 +5,11 @@ Vue.use(Vuex)
 
 export const state = () => ({
   token: '',
-  user: {}
+  user: {
+    id: 1,
+    nom: 'Humbert',
+    prenom: 'Lucas'
+  }
 })
 
 export const mutations = {

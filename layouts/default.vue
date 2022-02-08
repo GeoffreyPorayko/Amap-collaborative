@@ -16,8 +16,8 @@
         <b-navbar-item tag="nuxt-link" to="/QandA">
           Q&A
         </b-navbar-item>
-        <b-navbar-item tag="nuxt-link" to="/producteurs">
-          Producteurs
+        <b-navbar-item tag="nuxt-link" to="/contributeur">
+          Contributeurs
         </b-navbar-item>
       </template>
 
