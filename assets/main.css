@@ -7,6 +7,12 @@
   opacity: 0;
 }
 
+.cross{
+  position: absolute;
+  right: 10px;
+  top: 10px;
+}
+
 body{
   /*height: 100vh;
   background-color: #7957d5;*/

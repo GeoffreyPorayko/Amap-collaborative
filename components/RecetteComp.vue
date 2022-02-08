@@ -3,6 +3,7 @@
     <p>{{ messageError }}</p>
   </div>
   <div v-else>
+    <div id="topPage" />
     <div v-if="loading" style="margin: 0 auto;" class="mt-5">
       <Spinner />
     </div>
@@ -15,7 +16,7 @@
       </div>
       <div class="recipe-info is-flex is-flex-wrap-wrap is-justify-content-space-between">
         <div class="timerecipe">
-          <p>{{ timeConv }}</p>
+          <p>{{ timeConv(recipe.temps) }}</p>
         </div>
         <div class="recipe-content">
           <p class="has-text-centered">
@@ -55,9 +56,14 @@
           </li>
         </ul>
       </div>
+      <div class="is-flex is-justify-content-center mt-5">
+        <button class="button is-medium is-info" @click="displayStep()">
+          Commencer la recette
+        </button>
+      </div>
       <div v-for="etape in etapes" :key="etape.id" class="mt-5">
-        <h1><b>ÉTAPE {{etape.numero}}</b> {{etape.titre}}</h1>
-        <p>{{etape.contenu}}</p>
+        <h1><b>ÉTAPE {{ etape.numero }}</b> {{ etape.titre }}</h1>
+        <p>{{ etape.contenu }}</p>
       </div>
       <br>
       <div class="recipe-logo has-text-centered is-flex flex-wrap-wrap mt-2">
@@ -88,6 +94,20 @@
         </b-button>
       </div>
     </div>
+    <div v-if="etapes" id="fenetreEtape" class="blur">
+      <div id="etapeCard" class="card p-4">
+        <i class="fas fa-times cross fa-lg" style="cursor: pointer;" @click="closeStep()" />
+            <h1 class="is-size-4 ml-4 mt-4"><b>ÉTAPE {{ etapes[indexEtape].numero }}</b> {{ etapes[indexEtape].titre }} </h1>
+            <img :src="etapes[indexEtape].url_img" alt="" class="imgEtape">
+            <p class="ml-4 mt-5">{{ etapes[indexEtape].contenu }}</p>
+            <footer>
+              <button v-if="indexEtape === 0" class="button is-medium is-primary" style="float:left;">Précédent</button>
+              <button v-else v-on:click="indexEtape --" class="button is-medium is-primary" style="float:left;">Précédent</button>
+              <button v-if="indexEtape === etapes.length -1" class="button is-medium is-primary" style="float:right;" v-on:click="indexEtape = 0; closeStep()">Fin</button>
+              <button v-else class="button is-medium is-primary mr-5" style="float:right;" v-on:click="indexEtape ++">Suivant</button>
+            </footer>
+      </div>
+    </div>
   </div>
 </template>
 <script>
@@ -108,7 +128,10 @@ export default {
       produits: null,
       ustensiles: null,
       etapes: null,
-      type: 'ingredient'
+      type: 'ingredient',
+      play: false,
+      timer: null,
+      indexEtape: 0
     }
   },
   computed: {
@@ -123,29 +146,6 @@ export default {
         default:
           return 'Not filled in'
       }
-    },
-
-    timeConv () {
-      let time = this.recipe.temps
-      let heures = ''
-      let minutes = ''
-      let secondes = ''
-
-      if ((time / 3600) >= 1) {
-        heures = Math.trunc(time / 3600) + 'h '
-        time -= 3600 * Math.trunc(time / 3600)
-      }
-
-      if ((time / 60) >= 1) {
-        minutes = Math.trunc(time / 60) + 'min '
-        time -= 60 * Math.trunc(time / 60)
-      }
-
-      if (time > 0) {
-        secondes = time + 'sec'
-      }
-
-      return heures + minutes + secondes
     }
 
   },
@@ -200,6 +200,29 @@ export default {
       })
   },
   methods: {
+    timeConv (time) {
+      // let time = this.recipe.temps
+      let heures = ''
+      let minutes = ''
+      let secondes = ''
+
+      if ((time / 3600) >= 1) {
+        heures = Math.trunc(time / 3600) + 'h '
+        time -= 3600 * Math.trunc(time / 3600)
+      }
+
+      if ((time / 60) >= 1) {
+        minutes = Math.trunc(time / 60) + 'min '
+        time -= 60 * Math.trunc(time / 60)
+      }
+
+      if (time > 0) {
+        secondes = time + 'sec'
+      }
+
+      return heures + minutes + secondes
+    },
+
     selectChange (type) {
       document.getElementById('btn-ingredient').classList.remove('btnSelected')
       document.getElementById('btn-ustensile').classList.remove('btnSelected')
@@ -210,6 +233,17 @@ export default {
         this.type = 'ustensile'
         document.getElementById('btn-ustensile').classList.add('btnSelected')
       }
+    },
+
+    displayStep () {
+      document.body.scrollTop = 0
+      document.documentElement.scrollTop = 0
+      document.getElementById('fenetreEtape').style = 'display: block;'
+      document.getElementsByTagName('html').style = 'overflow = hidden'
+    },
+
+    closeStep () {
+      document.getElementById('fenetreEtape').style = 'display: none;'
     }
   }
 
@@ -255,7 +289,69 @@ export default {
   margin: 0 auto;
 }
 
+.blur{
+  opacity: 1;
+  transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  z-index: 1;
+  width: 100%;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(8px);
+}
+
+.imgEtape{
+  padding: 2%;
+  margin-right: 2%;
+  float: right;
+  max-width: 50%;
+  max-height: 90%;
+}
+
 li{
   list-style-type: '- ';
 }
+
+footer{
+  position: absolute;
+  bottom: 0%;
+  padding: 2%;
+  width: 100%;
+}
+
+#fenetreEtape{
+  display: none;
+}
+
+#etapeCard{
+  width: 80%;
+  height: 80%;
+  position: absolute; /* postulat de départ */
+  top: 50%; left: 50%; /* à 50%/50% du parent référent */
+  transform: translate(-50%, -50%);
+}
+
+@media (max-width: 640px) {
+
+h1{
+  text-align: center;
+}
+
+.imgEtape{
+  float: none;
+  display: block;
+  margin: 0 auto;
+}
+
+#etapeCard{
+  width: 100%;
+  height: 95%;
+  position: absolute; /* postulat de départ */
+  top: 55%; left: 50%; /* à 50%/50% du parent référent */
+}
+
+}
+
 </style>
