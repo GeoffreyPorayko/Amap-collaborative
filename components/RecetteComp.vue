@@ -1,12 +1,12 @@
 <template>
   <div v-if="error">
-    <p>Erreur lors de la récupération de la recette</p>
+    <p>{{ messageError }}</p>
   </div>
   <div v-else>
     <div v-if="loading" style="margin: 0 auto;" class="mt-5">
       <Spinner />
     </div>
-    <div v-else class="recipe">
+    <div v-else class="recipe card">
       <p class="has-text-centered has-text-weight-semibold is-size-2">
         {{ recipe.titre }}
       </p>
@@ -32,10 +32,28 @@
         </div>
       </div>
       <br>
-      <div class="lorem text has-text-centered is-bordered">
-        <p class="p-2">
-          {{ recipe.description }}
-        </p>
+      <p class="has-text-centered">
+        <i>{{ recipe.description }}</i>
+      </p>
+      <div class="lorem text has-text-centered is-bordered mt-3 p-1">
+        <button id="btn-ingredient" class="is-size-4 btnSelect btnSelected" @click="selectChange('ingredient')">
+          Ingrédients
+        </button>
+        <button id="btn-ustensile" class="is-size-4 btnSelect" @click="selectChange('ustensile')">
+          Ustensiles
+        </button>
+      </div>
+      <div class="lorem is-bordered mt-1">
+        <ul v-if="type === 'ingredient'" class="p-5">
+          <li v-for="produit in produits" :key="produit.id_produit">
+            {{ produit.nombre }} {{ produit.unite }} {{ produit.nom }}
+          </li>
+        </ul>
+        <ul v-else class="p-5">
+          <li v-for="ustensile in ustensiles" :key="ustensile.id_ustensile">
+            {{ ustensile.nombre }} {{ ustensile.nom }}
+          </li>
+        </ul>
       </div>
       <br>
       <div class="recipe-logo has-text-centered is-flex flex-wrap-wrap">
@@ -80,8 +98,13 @@ export default {
   data () {
     return {
       error: false,
+      messageError: '',
       loading: true,
-      recipe: null
+      recipe: null,
+      produits: null,
+      ustensiles: null,
+      etapes: null,
+      type: 'ingredient'
     }
   },
   computed: {
@@ -133,17 +156,67 @@ export default {
       .catch((error) => {
         console.log(error)
         this.error = true
+        this.messageError = 'Erreur lors de la récupération de la recette'
       })
       .finally(() => {
         this.loading = false
       })
-    // méthode qui est appelée quand le callback d'une promise est exécuté : resolve ou reject, cela évite de dupliquer le code dans .then & .catch
+    axios
+      .get('http://localhost:8000/recette/produits/' + this.id)
+      .then((response) => {
+        this.produits = response.data
+        this.error = false
+      })
+      .catch((error) => {
+        console.log(error)
+        this.error = true
+        this.messageError = 'Erreur lors de la récupération des ingrédients de la recette'
+      })
+    axios
+      .get('http://localhost:8000/recette/ustensiles/' + this.id)
+      .then((response) => {
+        this.ustensiles = response.data
+        this.error = false
+      })
+      .catch((error) => {
+        console.log(error)
+        this.error = true
+        this.messageError = 'Erreur lors de la récupération des ustensiles de la recette'
+      })
+  },
+  methods: {
+    selectChange (type) {
+      document.getElementById('btn-ingredient').classList.remove('btnSelected')
+      document.getElementById('btn-ustensile').classList.remove('btnSelected')
+      if (type === 'ingredient') {
+        this.type = 'ingredient'
+        document.getElementById('btn-ingredient').classList.add('btnSelected')
+      } else {
+        this.type = 'ustensile'
+        document.getElementById('btn-ustensile').classList.add('btnSelected')
+      }
+    }
   }
+
 }
 
 </script>
 
 <style scoped>
+
+.btnSelect{
+  width: 49.5%;
+  border-radius: 8px;
+  padding: 1%;
+  border: none;
+  cursor: pointer;
+}
+
+.btnSelected{
+  background-color: #7957d5;
+  color: antiquewhite;
+}
+
 .recipe{
   max-width: 500px;
   width: 100%;
@@ -157,7 +230,7 @@ export default {
 }
 
 .lorem{
-  border: solid black 1px;
+  border: solid rgb(148, 148, 148) 1px;
   border-radius: 8px;
 }
 .likedislike{
@@ -165,5 +238,9 @@ export default {
 }
 .avis{
   margin: 0 auto;
+}
+
+li{
+  list-style-type: '- ';
 }
 </style>

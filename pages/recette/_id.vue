@@ -1,6 +1,6 @@
 <template>
   <div>
-    <RecetteComp :id="$route.params.id" />
+    <RecetteComp :id="$route.params.id" class="mt-5" />
   </div>
 </template>
 
