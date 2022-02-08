@@ -16,7 +16,7 @@
     </div>
     <div class="columns is-multiline is-justify-content-center mt-2">
       <template v-for="producteur in filterByTerm">
-        <CardProducteur :key="producteur.id" :producteur="producteur" />
+        <CardProducteur :key="producteur.id" :producteur="producteur" :followers="followers" />
       </template>
     </div>
   </section>
@@ -32,6 +32,7 @@ export default {
   data () {
     return {
       producteurs: [],
+      followers: [],
       search: ''
     }
   },
@@ -50,10 +51,11 @@ export default {
     this.$axios.get('http://localhost:8000/producteurs')
       .then((response) => {
         this.producteurs = response.data
-        console.log(response)
       })
-      .catch((error) => {
-        console.log(error)
+
+    this.$axios.get(`http://localhost:8000/producteurs/suivis/${this.$store.state.user.id}`)
+      .then((response) => {
+        this.followers = response.data
       })
   }
 }

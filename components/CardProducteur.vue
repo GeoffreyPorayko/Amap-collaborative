@@ -10,9 +10,19 @@
         <p class="mb-1">
           {{ fullname }}
         </p>
-        <b-button rounded class="is-small">
-          {{ followed }}
-        </b-button>
+
+        <div v-if="$store.state.user.id">
+          <div v-if="suivi">
+            <b-button rounded class="is-small" @click="unfollow">
+              Ne plus suivre
+            </b-button>
+          </div>
+          <div v-else>
+            <b-button rounded class="is-small" @click="follow">
+              Suivre
+            </b-button>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -22,22 +32,51 @@
 export default {
   name: 'CardProducteur',
   // eslint-disable-next-line vue/require-prop-types,vue/prop-name-casing
-  props: ['producteur'],
+  props: ['producteur', 'followers'],
   data () {
     return {
-      suivi: 0
+      suivi: false
     }
   },
   computed: {
     fullname () {
       return this.producteur.prenom + ' ' + this.producteur.nom
+    }
+  },
+  mounted () {
+    setTimeout(
+      this.isFollowing
+      , 50)
+  },
+  methods: {
+    isFollowing () {
+      this.followers.forEach((el) => {
+        if (el.id === this.producteur.id) {
+          this.suivi = true
+        }
+      })
     },
-    followed () {
-      if (this.suivi) {
-        return 'Ne plus suivre'
-      } else {
-        return 'Suivre'
-      }
+    unfollow () {
+      console.log('unfollow')
+      this.$axios.put(`http://localhost:8000/producteur/${this.$store.state.user.id}/unfollow/${this.producteur.id}`)
+        .then((response) => {
+          console.log(response)
+          this.suivi = false
+        })
+        .catch((error) => {
+          console.log(error)
+        })
+    },
+    follow () {
+      console.log('follow')
+      this.$axios.put(`http://localhost:8000/producteur/${this.$store.state.user.id}/suivre/${this.producteur.id}`)
+        .then((response) => {
+          console.log(response)
+          this.suivi = true
+        })
+        .catch((error) => {
+          console.log(error)
+        })
     }
   }
 }
