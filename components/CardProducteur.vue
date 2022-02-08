@@ -3,12 +3,12 @@
     <div class="card">
       <div class="card-image">
         <figure class="image is-4by3">
-          <img :src="photo" alt="Placeholder image">
+          <img :src="producteur.url_img" alt="Placeholder image">
         </figure>
       </div>
       <div class="card-content has-text-centered">
         <p class="mb-1">
-          {{ nom }}
+          {{ fullname }}
         </p>
         <b-button rounded class="is-small">
           {{ followed }}
@@ -22,8 +22,16 @@
 export default {
   name: 'CardProducteur',
   // eslint-disable-next-line vue/require-prop-types,vue/prop-name-casing
-  props: ['nom', 'photo', 'suivi'],
+  props: ['producteur'],
+  data () {
+    return {
+      suivi: 0
+    }
+  },
   computed: {
+    fullname () {
+      return this.producteur.prenom + ' ' + this.producteur.nom
+    },
     followed () {
       if (this.suivi) {
         return 'Ne plus suivre'

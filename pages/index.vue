@@ -74,7 +74,7 @@ export default {
 
   created () {
     axios
-      .get('http://localhost:8080/recettes')
+      .get('http://localhost:8000/recettes')
       .then((response) => {
         this.recipes = response.data
         this.error = false
