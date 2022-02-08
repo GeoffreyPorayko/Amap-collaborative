@@ -55,8 +55,12 @@
           </li>
         </ul>
       </div>
+      <div v-for="etape in etapes" :key="etape.id" class="mt-5">
+        <h1><b>ÉTAPE {{etape.numero}}</b> {{etape.titre}}</h1>
+        <p>{{etape.contenu}}</p>
+      </div>
       <br>
-      <div class="recipe-logo has-text-centered is-flex flex-wrap-wrap">
+      <div class="recipe-logo has-text-centered is-flex flex-wrap-wrap mt-2">
         <div class="likedislike">
           <b-button type="is-primary" size="is-large" outlined rounded>
             <b-icon
@@ -182,6 +186,17 @@ export default {
         console.log(error)
         this.error = true
         this.messageError = 'Erreur lors de la récupération des ustensiles de la recette'
+      })
+    axios
+      .get('http://localhost:8000/recette/etapes/' + this.id)
+      .then((response) => {
+        this.etapes = response.data
+        this.error = false
+      })
+      .catch((error) => {
+        console.log(error)
+        this.error = true
+        this.messageError = 'Erreur lors de la récupération des étapes de la recette'
       })
   },
   methods: {
